@@ -1,0 +1,15 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag 'errship3', :media => 'screen, projection' %>
+<% end %>
+
+<div class='errship3'>
+  <h1 class='error_code alert'><%= status_code %></h1>
+  <% if errship3_scope %>
+  <h2><%= t "errship3.#{status_code}.#{errship3_scope}.title" %></h2>
+  <p><%= t "errship3.#{status_code}.#{errship3_scope}.description" %></p>
+  <% else %>
+  <h2><%= t "errship3.#{status_code}.title" %></h2>
+  <p><%= t "errship3.#{status_code}.description" %></p>
+  <% end %>
+  <%= link_to 'Go Home', root_url %>
+</div>

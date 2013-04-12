@@ -1,0 +1,1 @@
+$("#comment_form_for_<%= @parent_comment.id %>").html("<%= escape_javascript(render :partial => 'shared/comment_reply_form', locals: {comment: @comment, parent_id: params[:id] }) %>")

@@ -1,0 +1,19 @@
+seun:
+  first_name: "Seun"
+  last_name: "Adekoje"
+  email: "seun3000@gmail.com"
+  profile_name: "seunade"
+  encrypted_password: "$2a$10$Fh/Hm8RxDsuPTeBUr6864.GARlcmt7zF2WspaXGr3BIv2C27N.osq"
+
+patrick:
+  first_name: "Patrick"
+  last_name: "Ewing"
+  email: patrick@example.com
+  profile_name: "patrick"  
+
+john:
+  first_name: "John"
+  last_name: "Starks"
+  email:  "john@example.com"
+  profile_name:  "john"
+  

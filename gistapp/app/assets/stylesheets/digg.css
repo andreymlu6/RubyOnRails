@@ -1,0 +1,21 @@
+
+ul.site-nav
+{
+    font-size: 12px;
+}
+
+ul.site-nav > li > a {
+    color: #666666;
+    text-decoration: none;
+    text-shadow: 0 1px #FFFFFF;
+    font-family: "source-sans-pro","Helvetica Neue",sans-serif;
+    font-weight: lighter;
+}
+
+ul.site-nav > li > a:visited {
+    color: #666666;
+    text-decoration: none;
+    text-shadow: 0 1px #FFFFFF;
+    font-family: "source-sans-pro","Helvetica Neue",sans-serif;
+}
+

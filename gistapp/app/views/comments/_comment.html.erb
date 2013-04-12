@@ -1,0 +1,10 @@
+<div class="span6 well">
+ <%= comment.content %>  <br />
+  <p>By <%= comment.try(:user).try(:full_name) rescue "Anonimous" %></p>
+<%= time_ago_in_words(comment.created_at) %> ago
+<%= link_to 'reply', new_child_comment_comment_path(comment), remote: true %> |
+<%= link_to '+1',  comment_up_vote_path(comment.id), remote: true  %>
+  <div id="comment_form_for_<%= comment.id %>">
+
+  </div>
+</div>

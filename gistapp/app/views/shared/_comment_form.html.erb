@@ -1,0 +1,16 @@
+<h5>Comments</h5>
+<hr />
+<div class="row">
+  <%= nested_messages(comments.arrange(order: 'created_at DESC')) %>
+</div>
+<div class="clearfix" style="height: 50px"></div>
+<div class="pull-left">
+  <%= semantic_form_for(comment, remote: true, html: {class: "form-horizontal"}) do |f| %>
+      <%= f.input :content, as: :text, label: false, input_html: {class: "span9", style: " height: 100px;margin-left: -200px"} %>
+
+      <%= f.hidden_field :status_id, :value => status_id %>
+      <%= f.hidden_field :parent_id, :value => nil %>
+      <hr/>
+      <%= f.button :submit, submit_html: {:disable_with => 'Commenting..'}, class: 'btn' %>
+  <% end %>
+</div>

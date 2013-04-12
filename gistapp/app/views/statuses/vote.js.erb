@@ -1,0 +1,3 @@
+$("#notification").html("<%= escape_javascript(render partial: 'layouts/notification') %>")
+$("td#reputation-<%= @status.id %>").html("<%= (@status.reputation_for(:votes)).to_i %>")
+$("span#reputation-<%= @status.id %>").html("<%= (@status.reputation_for(:votes)).to_i %> points ")

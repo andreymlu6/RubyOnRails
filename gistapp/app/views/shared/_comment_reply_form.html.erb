@@ -1,0 +1,22 @@
+<div class="clearfix" style="clear: both"></div>
+<%= semantic_form_for(comment, url: create_child_comment_comment_path(parent_id), remote: true, html: {class: "form-horizontal"}) do |f| %>
+    <% if comment.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(comment.errors.count, "error") %> prohibited this status from being saved:</h2>
+
+          <ul>
+            <% comment.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= f.input :content, input_html: {style: "height:50px"} %>
+    <%= f.hidden_field :parent_id, :value => parent_id %>
+
+    <div class="form-actions">
+      <%= f.button :submit, submit_with: 'commenting...', class: 'btn' %>
+    </div>
+<% end %>
+

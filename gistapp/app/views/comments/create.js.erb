@@ -1,0 +1,6 @@
+<% if current_user %>
+$("#notification").html("<%= escape_javascript(render partial: 'layouts/notification') %>")
+$("#comment_form_for_status_<%= @status_id %>").html("<%= escape_javascript(render :partial => 'shared/comment_form', locals: {comment: @comment, status_id: @status_id, status: @status, comments: @comments}) %>")
+<% else %>
+$("#notification").html("<%= escape_javascript(render partial: 'layouts/notification') %>")
+<% end %>

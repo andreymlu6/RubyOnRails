@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>gistapp</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner" style="height: 70px;">
+    <div class="container">
+      <a href="/" class="brand" style="margin-top: 10px;"> gistapp</a>
+      <ul class="nav">
+        <li class="<%=  params[:name] == '1hour' ? 'active' : 'border' %>"><%= link_to "1 HOUR", feed_path(time: 1.hour.ago, name: '1hour') %></li>
+        <li class="<%= params[:name] == 'today' ? 'active' : '' %>"><%= link_to "24 hours", feed_path(time: 24.hours.ago, name:'today') %></li>
+        <li class="<%= params[:name] == 'week' ? 'active' : 'border' %>"><%= link_to "Week", feed_path(time: 7.days.ago, name: 'week') %></li>
+      </ul>
+      <ul class="nav pull-right site-nav">
+        <li><%= link_to "Submit a link", new_status_path %></li>
+
+        <% if user_signed_in? %>
+            <li><%= link_to 'Friends', user_friendships_path %></li>
+            <li><%= link_to current_user.full_name, edit_user_registration_path %></li>
+            <li><%= link_to "Log Out", logout_path %></li>
+        <% else %>
+            <li><%= link_to "Register", register_path %></li>
+            <li><%= link_to "Sign in", new_user_session_path %></li>
+            <% end %>
+
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="clearfix" style="height: 20px"></div>
+<div class="container">
+  <div class="span12">
+    <div class="clearfix" style="height: 20px"></div>
+    <div id="notification">
+      <%= render partial: 'layouts/notification' %>
+    </div>
+    <%= yield %>
+  </div>
+</div>
+</body>
+</html>

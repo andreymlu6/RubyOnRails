@@ -1,0 +1,217 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+DEPRECATION WARNING: Passing a block to devise_for is deprecated. Please remove the block from devise_for (only the block, the call to devise_for must still exist) and call devise_scope :user do ... end with the block instead. (called from block in <top (required)> at d:/oDesk/Hourly/13_Mar/Seun/gistapp/config/routes.rb:14)
+  [1m[36m (53.0ms)[0m  [1mCREATE TABLE `authentications` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uid` varchar(255), `provider` varchar(255), `permissions` varchar(255), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `raw` varchar(255), `credentials` varchar(255)) ENGINE=InnoDB[0m
+  [1m[35m (31.0ms)[0m  CREATE TABLE `comments` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `user_id` int(11), `status_id` int(11), `content` text, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `ancestry` varchar(255)) ENGINE=InnoDB
+  [1m[36m (77.0ms)[0m  [1mCREATE INDEX `index_comments_on_status_id` ON `comments` (`status_id`)[0m
+  [1m[35m (69.0ms)[0m  CREATE INDEX `index_comments_on_user_id` ON `comments` (`user_id`)
+  [1m[36m (27.0ms)[0m  [1mCREATE TABLE `follows` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `followable_id` int(11) NOT NULL, `followable_type` varchar(255) NOT NULL, `follower_id` int(11) NOT NULL, `follower_type` varchar(255) NOT NULL, `blocked` tinyint(1) DEFAULT 0 NOT NULL, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (70.0ms)[0m  CREATE INDEX `fk_followables` ON `follows` (`followable_id`, `followable_type`)
+  [1m[36m (69.0ms)[0m  [1mCREATE INDEX `fk_follows` ON `follows` (`follower_id`, `follower_type`)[0m
+  [1m[35m (30.0ms)[0m  CREATE TABLE `rs_evaluations` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `reputation_name` varchar(255), `source_id` int(11), `source_type` varchar(255), `target_id` int(11), `target_type` varchar(255), `value` float DEFAULT 0.0, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (68.0ms)[0m  [1mCREATE UNIQUE INDEX `index_rs_evaluations_on_reputation_name_and_source_and_target` ON `rs_evaluations` (`reputation_name`, `source_id`, `source_type`, `target_id`, `target_type`)[0m
+  [1m[35m (69.0ms)[0m  CREATE INDEX `index_rs_evaluations_on_reputation_name` ON `rs_evaluations` (`reputation_name`)
+  [1m[36m (69.0ms)[0m  [1mCREATE INDEX `index_rs_evaluations_on_source_id_and_source_type` ON `rs_evaluations` (`source_id`, `source_type`)[0m
+  [1m[35m (70.0ms)[0m  CREATE INDEX `index_rs_evaluations_on_target_id_and_target_type` ON `rs_evaluations` (`target_id`, `target_type`)
+  [1m[36m (30.0ms)[0m  [1mCREATE TABLE `rs_reputation_messages` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `sender_id` int(11), `sender_type` varchar(255), `receiver_id` int(11), `weight` float DEFAULT 1.0, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (69.0ms)[0m  CREATE UNIQUE INDEX `index_rs_reputation_messages_on_receiver_id_and_sender` ON `rs_reputation_messages` (`receiver_id`, `sender_id`, `sender_type`)
+  [1m[36m (68.0ms)[0m  [1mCREATE INDEX `index_rs_reputation_messages_on_receiver_id` ON `rs_reputation_messages` (`receiver_id`)[0m
+  [1m[35m (68.0ms)[0m  CREATE INDEX `index_rs_reputation_messages_on_sender_id_and_sender_type` ON `rs_reputation_messages` (`sender_id`, `sender_type`)
+  [1m[36m (31.0ms)[0m  [1mCREATE TABLE `rs_reputations` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `reputation_name` varchar(255), `value` float DEFAULT 0.0, `aggregated_by` varchar(255), `target_id` int(11), `target_type` varchar(255), `active` tinyint(1) DEFAULT 1, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (62.0ms)[0m  CREATE UNIQUE INDEX `index_rs_reputations_on_reputation_name_and_target` ON `rs_reputations` (`reputation_name`, `target_id`, `target_type`)
+  [1m[36m (67.0ms)[0m  [1mCREATE INDEX `index_rs_reputations_on_reputation_name` ON `rs_reputations` (`reputation_name`)[0m
+  [1m[35m (59.0ms)[0m  CREATE INDEX `index_rs_reputations_on_target_id_and_target_type` ON `rs_reputations` (`target_id`, `target_type`)
+  [1m[36m (29.0ms)[0m  [1mCREATE TABLE `statuses` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `content` text, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `user_id` int(11), `url` varchar(255), `title` varchar(255)) ENGINE=InnoDB[0m
+  [1m[35m (66.0ms)[0m  CREATE INDEX `index_statuses_on_user_id` ON `statuses` (`user_id`)
+  [1m[36m (30.0ms)[0m  [1mCREATE TABLE `taggings` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `tag_id` int(11), `taggable_id` int(11), `taggable_type` varchar(255), `tagger_id` int(11), `tagger_type` varchar(255), `context` varchar(128), `created_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (59.0ms)[0m  CREATE INDEX `index_taggings_on_tag_id` ON `taggings` (`tag_id`)
+  [1m[36m (66.0ms)[0m  [1mCREATE INDEX `index_taggings_on_taggable_id_and_taggable_type_and_context` ON `taggings` (`taggable_id`, `taggable_type`, `context`)[0m
+  [1m[35m (28.0ms)[0m  CREATE TABLE `tags` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `name` varchar(255)) ENGINE=InnoDB
+  [1m[36m (30.0ms)[0m  [1mCREATE TABLE `user_friendships` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `user_id` int(11), `friend_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `state` varchar(255)) ENGINE=InnoDB[0m
+  [1m[35m (67.0ms)[0m  CREATE INDEX `index_user_friendships_on_state` ON `user_friendships` (`state`)
+  [1m[36m (304.0ms)[0m  [1mCREATE INDEX `index_user_friendships_on_user_id_and_friend_id` ON `user_friendships` (`user_id`, `friend_id`)[0m
+  [1m[35m (28.0ms)[0m  CREATE TABLE `users` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `first_name` varchar(255), `last_name` varchar(255), `profile_name` varchar(255), `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int(11) DEFAULT 0, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `uid` varchar(255), `bio` varchar(255), `remote_avatar_url` varchar(255), `phone` varchar(255), `address` varchar(255), `confirmed_at` datetime, `gender` varchar(255), `provider` varchar(255), `location` varchar(255), `name` varchar(255)) ENGINE=InnoDB
+  [1m[36m (65.0ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email` ON `users` (`email`)[0m
+  [1m[35m (67.0ms)[0m  CREATE UNIQUE INDEX `index_users_on_reset_password_token` ON `users` (`reset_password_token`)
+  [1m[36m (28.0ms)[0m  [1mCREATE TABLE `votes` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `votable_id` int(11), `votable_type` varchar(255), `voter_id` int(11), `voter_type` varchar(255), `vote_flag` tinyint(1), `vote_scope` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (59.0ms)[0m  CREATE INDEX `index_votes_on_votable_id_and_votable_type_and_vote_scope` ON `votes` (`votable_id`, `votable_type`, `vote_scope`)
+  [1m[36m (66.0ms)[0m  [1mCREATE INDEX `index_votes_on_votable_id_and_votable_type` ON `votes` (`votable_id`, `votable_type`)[0m
+  [1m[35m (66.0ms)[0m  CREATE INDEX `index_votes_on_voter_id_and_voter_type_and_vote_scope` ON `votes` (`voter_id`, `voter_type`, `vote_scope`)
+  [1m[36m (66.0ms)[0m  [1mCREATE INDEX `index_votes_on_voter_id_and_voter_type` ON `votes` (`voter_id`, `voter_type`)[0m
+  [1m[35m (22.0ms)[0m  CREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB
+  [1m[36m (59.0ms)[0m  [1mCREATE UNIQUE INDEX `unique_schema_migrations` ON `schema_migrations` (`version`)[0m
+  [1m[35m (1.0ms)[0m  SELECT version FROM `schema_migrations`
+  [1m[36m (21.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130221094528')[0m
+  [1m[35m (11.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20121222195421')
+  [1m[36m (14.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130110191835')[0m
+  [1m[35m (10.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130111141135')
+  [1m[36m (12.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130116153647')[0m
+  [1m[35m (11.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130124224201')
+  [1m[36m (11.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130201230737')[0m
+  [1m[35m (12.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130201231321')
+  [1m[36m (11.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130202000005')[0m
+  [1m[35m (13.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130202003000')
+  [1m[36m (11.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130215073355')[0m
+  [1m[35m (11.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130215073356')
+  [1m[36m (13.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130215073357')[0m
+  [1m[35m (12.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130215073358')
+  [1m[36m (11.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130215073359')[0m
+  [1m[35m (13.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130215073360')
+  [1m[36m (12.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130215073361')[0m
+  [1m[35m (13.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130216163931')
+  [1m[36m (11.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130219123204')[0m
+  [1m[35m (12.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130219125546')
+  [1m[36m (13.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130219165430')[0m
+  [1m[35m (11.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130219171057')
+  [1m[36m (13.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130219171742')[0m
+  [1m[35m (12.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130219172148')
+  [1m[36m (11.0ms)[0m  [1mINSERT INTO `schema_migrations` (version) VALUES ('20130219172340')[0m
+  [1m[35m (12.0ms)[0m  INSERT INTO `schema_migrations` (version) VALUES ('20130219181811')
+Connecting to database specified by database.yml
+DEPRECATION WARNING: Passing a block to devise_for is deprecated. Please remove the block from devise_for (only the block, the call to devise_for must still exist) and call devise_scope :user do ... end with the block instead. (called from block in <top (required)> at d:/oDesk/Hourly/13_Mar/Seun/gistapp/config/routes.rb:14)
+  [1m[36m (1.0ms)[0m  [1mSELECT `schema_migrations`.`version` FROM `schema_migrations` [0m
+Migrating to CreateStatuses (20121222195421)
+Migrating to DeviseCreateUsers (20130110191835)
+Migrating to AddUserIdToStatuses (20130111141135)
+Migrating to CreateUserFriendships (20130116153647)
+Migrating to AddStateToUserFriendships (20130124224201)
+Migrating to AddUrlToStatuses (20130201230737)
+Migrating to AddTitleToStatuses (20130201231321)
+Migrating to ActsAsVotableMigration (20130202000005)
+Migrating to CreateComments (20130202003000)
+Migrating to CreateReputationSystem (20130215073355)
+Migrating to AddReputationsIndex (20130215073356)
+Migrating to AddEvaluationsIndex (20130215073357)
+Migrating to AddReputationMessagesIndex (20130215073358)
+Migrating to ChangeEvaluationsIndexToUnique (20130215073359)
+Migrating to ChangeReputationMessagesIndexToUnique (20130215073360)
+Migrating to ChangeReputationsIndexToUnique (20130215073361)
+Migrating to AddAncestryToComment (20130216163931)
+Migrating to ActsAsTaggableOnMigration (20130219123204)
+Migrating to ActsAsFollowerMigration (20130219125546)
+Migrating to CreateAuthentications (20130219165430)
+Migrating to AddRawAndCredentialsToAuthentications (20130219171057)
+Migrating to AddProviderAndUidAndBioAndRemoteAvatarUrlAndPhoneAndAddressToUsers (20130219171742)
+Migrating to AddGenderToUsers (20130219172148)
+Migrating to AddProviderToUsers (20130219172340)
+Migrating to AddLocationToUsers (20130219181811)
+Migrating to AddNameToUser (20130221094528)
+  [1m[35m (0.0ms)[0m  SELECT `schema_migrations`.`version` FROM `schema_migrations` 
+Connecting to database specified by database.yml
+DEPRECATION WARNING: Passing a block to devise_for is deprecated. Please remove the block from devise_for (only the block, the call to devise_for must still exist) and call devise_scope :user do ... end with the block instead. (called from block in <top (required)> at d:/oDesk/Hourly/13_Mar/Seun/gistapp/config/routes.rb:14)
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-06 09:16:42 +0800
+Processing by StatusesController#index as HTML
+  [1m[36mStatus Load (3.0ms)[0m  [1mSELECT `statuses`.* FROM `statuses` ORDER BY created_at DESC[0m
+  [1m[35mActsAsTaggableOn::Tag Load (21.0ms)[0m  SELECT tags.*, taggings.tags_count AS count FROM `tags` JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM `taggings` INNER JOIN statuses ON statuses.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Status' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT statuses.id FROM `statuses` )) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered statuses/index.html.erb within layouts/application (463.0ms)
+Compiled formtastic-bootstrap.css  (0ms)  (pid 3488)
+Compiled bootstrap.css  (5ms)  (pid 3488)
+Compiled comments.css  (101ms)  (pid 3488)
+Compiled digg.css  (1ms)  (pid 3488)
+Compiled follow_activity.css  (17ms)  (pid 3488)
+Compiled profiles.css  (19ms)  (pid 3488)
+Compiled scaffolds.css  (21ms)  (pid 3488)
+Compiled statuses.css  (23ms)  (pid 3488)
+Compiled style.css  (0ms)  (pid 3488)
+Compiled typicons.css  (0ms)  (pid 3488)
+Compiled user_friendships.css  (15ms)  (pid 3488)
+Compiled votes.css  (15ms)  (pid 3488)
+Compiled application.css  (1362ms)  (pid 3488)
+Compiled jquery.js  (12ms)  (pid 3488)
+Compiled jquery_ujs.js  (0ms)  (pid 3488)
+Compiled bootstrap.js  (2ms)  (pid 3488)
+Compiled comments.js  (898ms)  (pid 3488)
+Compiled follow_activity.js  (347ms)  (pid 3488)
+Compiled profiles.js  (391ms)  (pid 3488)
+Compiled statuses.js  (658ms)  (pid 3488)
+Compiled user_friendships.js  (353ms)  (pid 3488)
+Compiled votes.js  (396ms)  (pid 3488)
+Compiled application.js  (3987ms)  (pid 3488)
+  Rendered layouts/_notification.html.erb (0.0ms)
+Completed 200 OK in 7700ms (Views: 7617.4ms | ActiveRecord: 41.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:50 +0800
+Served asset /bootstrap.css - 200 OK (10ms)
+
+
+Started GET "/assets/profiles.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:50 +0800
+Served asset /profiles.css - 200 OK (3ms)
+
+
+Started GET "/assets/digg.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /digg.css - 200 OK (3ms)
+
+
+Started GET "/assets/comments.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /comments.css - 200 OK (5ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /formtastic-bootstrap.css - 200 OK (6ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /scaffolds.css - 200 OK (3ms)
+
+
+Started GET "/assets/statuses.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /statuses.css - 200 OK (8ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /jquery_ujs.js - 200 OK (74ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /comments.js - 200 OK (10ms)
+
+
+Started GET "/assets/follow_activity.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /follow_activity.js - 200 OK (7ms)
+
+
+Started GET "/assets/profiles.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /profiles.js - 200 OK (2ms)
+
+
+Started GET "/assets/statuses.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /statuses.js - 200 OK (2ms)
+
+
+Started GET "/assets/votes.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /votes.js - 200 OK (5ms)
+
+
+Started GET "/assets/user_friendships.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /user_friendships.js - 200 OK (3ms)
+
+
+Started GET "/assets/typicons.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /typicons.css - 200 OK (12ms)
+
+
+Started GET "/assets/votes.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /votes.css - 200 OK (4ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /bootstrap.js - 200 OK (15ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-03-06 09:16:51 +0800
+Served asset /jquery.js - 200 OK (66ms)
+
+
+Started GET "/assets/user_friendships.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:52 +0800
+Served asset /user_friendships.css - 200 OK (35ms)
+
+
+Started GET "/assets/follow_activity.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:52 +0800
+Served asset /follow_activity.css - 200 OK (5ms)
+
+
+Started GET "/assets/style.css?body=1" for 127.0.0.1 at 2013-03-06 09:16:52 +0800
+Served asset /style.css - 200 OK (9ms)

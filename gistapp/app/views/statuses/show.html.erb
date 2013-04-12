@@ -1,0 +1,77 @@
+<hr/>
+<div class="span8">
+      <div class="@status">
+        <div class="row">
+
+          <div class="span3" style="padding: 10px">
+            <div class="votes" style="">
+              <div style="margin-top: 50px; font-size: 30px"><%= link_to '', vote_status_path(@status), class: "typicn thumbsUp", remote: true %></div>
+            </div>
+            <div class="" style="padding-left: 40px;">
+              <% if !@status.content.empty? %>
+                  <p><%= link_to @status.title, @status %></p>
+              <% else %>
+                  <h5 class="headline"><%= link_to @status.title, url_to_link(@status.url) %></h5>
+
+                  <p class="sub-headline"><%= link_to @status.url, @status.url %></p>
+              <% end %>
+              <% unless @status.tag_list.blank? %>
+                  <%= @status.tag_list.join(',') %>
+              <% end %>
+              <div class="meta">
+                <span id="reputation-<%= @status.id %>"><%= @status.reputation_for(:votes).to_i rescue 0 %> points </span>
+                <span>by <%= @status.user.full_name %></span><br/>
+                <span><%= link_to time_ago_in_words(@status.created_at) + " ago", @status %></span> |
+                <%= link_to "#{@status.comments.size.to_i rescue 0} comment", status_path(@status), id: "close_#{@status.id}", status: @status.id %>
+                <br/>
+            <span class="admin">
+          <% if can? :update, @status %>
+           <%= link_to "Edit", edit_status_path(@status) %> |
+          <% end %>
+              <% if can? :destroy, @status %>
+          <%= link_to "Delete", @status, method: :delete, data: {confirm: "Are you sure your want to delete this @status?"} %>
+          <% end %>
+        </span>
+              </div>
+            </div>
+            <div id="comment_form_for_status_<%= @status.id %>">
+                <%= render :partial => 'shared/comment_form', locals: {comment: @comment, status_id: @status.id, status: @status, comments: @comments, parent_id: nil} %>
+            </div>
+          </div>
+
+          <div class="span2" style="margin-top: 10px">
+            <table>
+              <thead>
+              <tr>
+                <td style="text-align: center; padding: 20px">Votes</td>
+                <td style="text-align: center; padding: 20px">Comments</td>
+                <td style="text-align: center; padding: 20px">Views</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td style="text-align: center" id="reputation-<%= @status.id %>"><%= @status.reputation_for(:votes).to_i rescue 0 %></td>
+                <td style="text-align: center"><%= @status.comments.size rescue 0 %></td>
+                <td style="text-align: center"><%= 0 %></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="span1 pull-right gravatar-box" style="padding-top: 40px;">
+            <%= image_tag @status.user.gravatar_url %>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div class="span3 pull-right tag-clouds">
+  <h4>Trending Topic &nbsp;&nbsp;&nbsp;<i data-title="tag" class="typicn tag"></i></h4>
+  <hr/>
+  <% @tags = @status.tag_counts_on(:tags) %>
+  <% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+      <div class="row-fluid" style="margin-bottom: 10px">
+        <%= link_to content_tag(:span, tag.name.capitalize, class: 'tag-style')+' X '+tag.count.to_s, root_path(tag: tag.name), :class => "#{css_class}", :style => "text-decoration:none" %>
+        <br/>
+      </div>
+  <% end %>
+</div>
